@@ -10,7 +10,50 @@
 			}
 		</style>
 		<script>
-			<!-- JavaScript goes here -->
+			// Excercise 1
+			document.write("<p><em><strong>'If I had nine hours to chop down a tree, I'd spend the first six sharpening my ax.'</strong> <br /> -- Abraham Lincoln</em></p>")
+			// Excercise 2: Alla on repeatingText() -funktio
+			function repeatingText() {
+				for (let i = 0; i < 50; i++) {
+					document.write(i + 1 + ". Line of text <br>")
+				}
+			}
+			// Miten funktio ajetaan selaimella?
+			// <button onclick="repeatingText()">Try it here.</button> myöhemmin koodissa HTML:n seassa.
+
+			// Exercise 3 - Mikä selain?
+			if (navigator.appCodeName = "Mozilla") {
+				open("http://mozilla.org")
+			} else { 
+				open("http://www.microsoft.com")
+			}
+			// Avaa http://mozilla.org sivun välilehteen mikäli käytät selainta, jonka appCodeName on 'Mozilla'
+
+			// Excercise 4 - Oletko opiskelija -popup ikkuna?
+			function confirmDialog() {
+				let text = "Are you a student or not?";
+				if (confirm(text) == true) {
+					text = "Welcome student!";
+				} else {
+					text = "Sorry, this page is for students only";
+				}
+				document.getElementById("demo").innerHTML = text;
+				}
+			
+			// Excercise 5 - Kuvien tulostaminen
+				document.write("<img src='http://farm4.staticflickr.com/3691/11268502654_f28f05966c_m.jpg' alt='kuva'>") //Tulostaa kuvan sivun yläkulmaan.
+				
+			// Excercise 5 - Satunnaisen kuvan funktio
+			function randomKuva() {
+				var images =[
+"http://farm4.staticflickr.com/3691/11268502654_f28f05966c_m.jpg", 
+"http://farm1.staticflickr.com/33/45336904_1aef569b30_n.jpg", 
+"http://farm6.staticflickr.com/5211/5384592886_80a512e2c9.jpg"
+];
+				var number = Math.round ( Math.random() * 2)
+				document.getElementById("demo2").innerHTML = ("<img src=" + images[number] + ">" + "<br>")
+			} // Funktio luo arrayn, jossa on kolme kuvaa. Sen jälkeen se luo muuttujan 'number', joka on satuinnainen numero väliltä 0-2. Seuraavaksi funktio tulostaa satunnaisen kuvan valmiiseen demoelementtiin HTML-koodissa sivun pohjalta.
+			
 		</script>
 </head>
 
@@ -36,6 +79,8 @@
 <div>
 <p>Write a JavaScript function called repeatingText(). It writes out a line of text to the page for 50 times. (HINT: use loops). How do you make browser run the function?</p>
 </div>
+<button onclick="repeatingText()">Try it here.</button>
+
 <div>
 <h2>Exercise 3</h2>
 </div>
@@ -48,6 +93,8 @@
 <div>
 <p>Create a simple web page, where JavaScript confirm-dialog will pop out asking if the user is a student or not. If the user clicks OK write "Welcome student" to the page. If the user clicks cancel, write on the page: "Sorry, this page is for students only". HINT: Confirm(); return true if the user click OK and false if cancel was clicked.</p>
 </div>
+<button onclick="confirmDialog()">Kokeile tästä!</button>
+<p id="demo"></p>
 <div>
 <h2>Exercise 5</h2>
 </div>
@@ -60,6 +107,8 @@
 "http://farm1.staticflickr.com/33/45336904_1aef569b30_n.jpg", 
 "http://farm6.staticflickr.com/5211/5384592886_80a512e2c9.jpg"
 ];<br /><br /><br /></pre>
+<button onclick="randomKuva()">Tästä satunnainen kuva</button>
+<p id="demo2">
 <h2>&nbsp;</h2>
 </div>
 </body></html>
