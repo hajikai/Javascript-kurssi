@@ -17,6 +17,7 @@
     border: 1px solid gray;
     width: 50%;
   }
+
   h2 {
     width: fit-content;
   }
@@ -32,7 +33,7 @@
   var counter = 0;
 
 
-  
+
 
   var html = `
   <style>
@@ -96,11 +97,7 @@ table, tr, td{
     document.write(html);
   };
 
-  var persons = ["Nyssa P. Skinner", "593-4241 Lacus, St.", "Cape Verde",
-    "Camilla F. Strickland", "391-2150 Ac Rd.", "Andorra",
-    "Reagan U. Andrews", "P.O. Box 472, 2271 Mauris Ave", "Faroe Islands",
-    "Kelsey D. Clark", "P.O. Box 866, 7793 Aliquet Ave", "Bulgaria"
-  ];
+  
 
   function printTable() {
     document.write("<table>")
@@ -116,13 +113,19 @@ table, tr, td{
     document.write("</table>");
   };
 
-  document.getElementById("myBtn").addEventListener("mouseover", myFunction2) 
-  function myFunction2() { 
-    document.getElementById("myBtn").innerHTML = "Stepped over my a mouse!" };
+  document.getElementById("myBtn").addEventListener("mouseover", myFunction2)
+  function myFunction2() {
+    console.log("Stepped over my a mouse!")
+  };
+
+  document.getElementById("btn1").addEventListener("click", clickFunction)
+  function clickFunction() {
+    window.alert('You clicked me! Today is ' + date + '.' + month + ' and the time is ' + hours + '.' + minutes + '.');
+  }
 
 
 
- 
+
 </script>
 
 <h1>Workshop 3: JavaScript Events</h1>
@@ -135,12 +138,104 @@ table, tr, td{
 <h2>Exercise 1</h2>
 <p>&nbsp;Below you will see three buttons. Edit the source code and add an onClick-events to these buttons.</p>
 <p>
-  <button
-    onclick="alert('You clicked me! Today is ' + date + '.' + month + ' and the time is ' + hours + '.' + minutes + '.')">Button
-    1</button>
-  <button onclick="showTable();">Button 2</button>
-  <button onclick="printTable();">Button 3</button>
+  <button id="btn1">Button 1</button>
+  <button id="btn2">Button 2</button>
+  <button id="btn3">Button 3</button>
 </p>
+<script>
+
+
+  var counter = 0;
+
+  var btn1 = document.getElementById("btn1");
+  btn1.addEventListener("click", clickFunction)
+  function clickFunction() {
+    window.alert('You clicked me! Today is ' + date + '.' + month + ' and the time is ' + hours + '.' + minutes + '.');
+  }
+
+  var btn2 = document.getElementById("btn2");
+  btn2.addEventListener("click", showTable);
+  function showTable() {
+    var html = `
+  <style>
+body {
+	font-family: "Trebuchet MS", Helvetica, sans-serif;
+	color: #333333;
+}
+
+div {
+    width: 200px;
+    height: 100px;
+    border: 1px solid black;
+}
+table, tr, td{
+  border: 1px solid gray;
+  width: 50%;
+}
+</style>
+<table id="example" class="display" cellspacing="0" style="table, tr, td{border: 1px solid gray; width: 50%;}">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Salary</th>
+            </tr>
+        </thead>
+        <tfoot>
+        </tfoot>
+        <tbody>
+            <tr>
+                <td>Tiger Nixon</td>
+                <td>System Architect</td>
+                <td>$320,800</td>
+            </tr>
+            <tr>
+                <td>Garrett Winters</td>
+                <td>Accountant</td>
+                <td>$170,750</td>
+            </tr>
+            <tr>
+                <td>Ashton Cox</td>
+                <td>Junior Technical Author</td>
+                <td>$86,000</td>
+            </tr>
+            <tr>
+                <td>Cedric Kelly</td>
+                <td>Senior Javascript Developer</td>
+                <td>$433,060</td>
+            </tr>
+            <tr>
+                <td>Airi Satou</td>
+                <td>Accountant</td>
+                <td>$162,700</td>
+            </tr>
+
+        </tbody>
+    </table>
+`;
+    document.write(html);
+  };
+  
+  var persons = ["Nyssa P. Skinner", "593-4241 Lacus, St.", "Cape Verde",
+    "Camilla F. Strickland", "391-2150 Ac Rd.", "Andorra",
+    "Reagan U. Andrews", "P.O. Box 472, 2271 Mauris Ave", "Faroe Islands",
+    "Kelsey D. Clark", "P.O. Box 866, 7793 Aliquet Ave", "Bulgaria"
+  ];
+
+  var btn3 = document.getElementById("btn3");
+  btn3.addEventListener("click", printTable);
+  function printTable() {
+    document.write("<table>")
+    for (var i = 0; i < persons.length; i++) {
+      if (i % 3 == 0) {
+        document.write("</tr><tr>");
+      } 
+      document.write("<td>" + persons[i] + "</td>");
+    } 
+    document.write("</table>");
+  };
+
+</script>
 
 <ul>
   <li>Button 1 should open an alert-button, which will say "You clicked me!" </li>
@@ -218,8 +313,21 @@ table, tr, td{
   </xmp>
 </ul>
 
-<h2 onmouseover="console.log('Stepped over my a mouse!')" onmouseout="alert('Bye bye mouse!');">Exercise 2</h2>
+<h2 id="hiiri">Exercise 2</h2>
 
+<script>
+
+var hiiri = document.getElementById("hiiri");
+hiiri.addEventListener("mouseover", stepFunction);
+function stepFunction() {
+  console.log("Stepper over my mouse!");
+}
+hiiri.addEventListener("mouseout", outFunction);
+function outFunction() {
+  alert("Bye bye mouse!");
+}
+
+</script>
 <ul>
   <li>Add an&nbsp;onMouseOver event on the&nbsp;Heading "Exercise 2" of this page.&nbsp;It should&nbsp;fire when the
     users mouse is moved
@@ -242,34 +350,38 @@ table, tr, td{
     command: <i>document.getElementById("textdata").value</i>. We will study the forms deeper in Workshops 4 and 5.</li>
 </ul>
 <form>
-  <textarea id="textdata"  onkeydown="countFunction();"></textarea><br>
+  <textarea id="textdata"></textarea><br>
   <h3 id="counter"></h3>
-  <button onclick="validate();">Send me</button>
+  <button id="btn4">Send me</button>
 </form>
 
 <script>
   var x = document.getElementById("textdata");
   x.addEventListener("focus", myFocusFunction);
-
   function myFocusFunction() {
-      var teksti = "Please fill in the form with proper data.";
-      var x = document.getElementById("textdata");
-      x.value = teksti;
-      x.style = "background: red";
-    };
+    var teksti = "Please fill in the form with proper data.";
+    var x = document.getElementById("textdata");
+    x.value = teksti;
+    x.style = "background: red";
+  };
 
-    function validate() {
-      var x = document.getElementById("textdata")
-      if (x.value == '') {
-        alert('Field is empty!');
-        return false;
-      };
+  x.addEventListener("keydown", countFunction);
+  function countFunction() {
+    counter++;
+    document.getElementById("counter").innerHTML = counter;
+  };
+  
+  var btn4 = document.getElementById("btn4");
+  btn4.addEventListener("click", validate)
+  function validate() {
+    var x = document.getElementById("textdata")
+    if (x.value == '') {
+      alert('Field is empty!');
+      return false;
     };
+  };
 
-    function countFunction() {
-      counter++;
-      document.getElementById("counter").innerHTML = counter;
-    };
+  
 </script>
 <h2>Exercise 4</h2>
 So far you have hardcoded the events into HTML tags. Make a copy of your exercise file and try to add the events
@@ -277,9 +389,25 @@ dynamically, without touching the HTML at all. This can be
 achieved using addEventListener() -function, <a target="_blank"
   href="https://www.w3schools.com/js/js_htmldom_eventlistener.asp"> see more here</a>.
 
-<h2>Exercise 5</h2>
+<h2 id="">Exercise 5</h2>
 
-<div id="coordinates"></div>
+<div id='coordinates'>
+  <h2 id='coords'></h2>
+</div>
+
+<script>
+
+  var coordinates = document.getElementById("coordinates");
+  console.log(coordinates);
+  coordinates.addEventListener("mousemove", showXY);
+
+  function showXY(event) {
+    var x = event.clientX;
+    var y = event.clientY;
+    var coords = x + ', ' + y;
+    document.getElementById("coords").innerHTML = coords;
+  }
+</script>
 
 <p>Add onMouseMove -event to the DIV-element above. When you move mouse over the DIV (rectangle) the program should
   output the coordinates of your pointer. Try first
@@ -292,8 +420,47 @@ You need to use
 document.getElementById("coordinates").innerHTML to achieve this.
 
 <H2>Exercise 6</h2>
-<button>Get location</button>
-<button>Show location</button>
+<button id="getButton">Get location</button>
+<button id="showButton">Show location</button>
+
+<p id="lokaatio"></p>
+
+<script>
+  var getButton = document.getElementById("getButton");
+  getButton.addEventListener("click", getLocation);
+
+  var showButton = document.getElementById("showButton");
+  showButton.addEventListener("click", getLocationMap)
+
+  var lokaatio = document.getElementById("lokaatio");
+
+  function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else {
+    lokaatio.innerHTML = "Geolocation is not supported by this browser.";
+  }
+}
+
+  function showPosition(position) {
+  lokaatio.innerHTML = "Latitude: " + position.coords.latitude + 
+  "<br>Longitude: " + position.coords.longitude;
+  console.log("Latitude: " + position.coords.latitude + ", Longitude: " + position.coords.longitude);
+}
+
+function getLocationMap() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(mapPosition);
+  } else {
+    lokaatio.innerHTML = "Geolocation is not supported by this browser.";
+  }
+}
+
+  function mapPosition(position) {
+    console.log(position.coords.latitude + ' ,' + position.coords.longitude)
+    window.open("https://maps.googleapis.com/maps/api/staticmap?center="+ position.coords.latitude + "," + position.coords.longitude + "&zoom=14&size=400x300&sensor=false")
+  }
+</script>
 
 <li>The first button should check <a href="https://www.w3schools.com/html/html5_geolocation.asp">Geolocation</a> of the
   user, and output it to the console and to the

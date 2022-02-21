@@ -23,12 +23,88 @@ img {
 </style>
 <script>
 
-<!-- JavaScript goes here -->
+function firstFunction() {
+  var h2 = document.getElementsByTagName('h2');
+  h2[1].style.color = 'red';
+  h2[1].style.fontSize = '10px';
+  h2[1].style.backgroundColor = 'black';
+}
 
+function secondFunction() {
+  var p = document.getElementsByTagName('p'); // Etsii kaikki P-tagin elementit
+  var para = p[3]; // Luo muuttujan neljännestä P-tagin elementistä
+  var teksti = '<em>&quot;Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed posuere interdum sem. Quisque ligula eros   ullamcorper quis, lacinia quis facilisis sed sapien. Mauris varius diam   vitae arcu. Sed arcu lectus auctor vitae, consectetuer et venenatis eget velit.&quot;</em>';
+  var elementti = document.createElement('p'); // Luo uuden P-tagin elementin
+  elementti.innerHTML = teksti; // Syöttää uuden P-tagin elementin sisään valitun tekstin
+  para.appendChild(elementti); // Syöttää uuden elementin 4. p-tagin jälkeen.
+
+  document.body.style.background = "black"; // Muuttaa koko sivun taustaväriä.
+
+  var kuva = document.createElement('img');
+  kuva.src = 'https://images.almatalent.fi/cx0,cy1,cw1140,ch855,650x/https://assets.almatalent.fi/image/1887dfab-fdfd-3291-89a7-ad3ffa65304e';
+  para.appendChild(kuva);
+}
+
+function hide() {
+  var x = document.getElementById('data');
+  x.style.display = 'none';
+}
+
+function show() {
+  var x = document.getElementById('data');
+  x.style.display = 'block'; 
+}
+
+function find() {
+  const y = document.getElementsByClassName('surprise');
+  console.log(y);
+  for (x = 0; x < y.length; x++) {
+    console.log(y[x]);
+    y[x].style.fontSize = '20';
+  }
+}
+
+function addBorder() {
+  var image = document.getElementById('carimage');
+  image.style.border = '1px solid red';
+}
+
+function removeBorder() {
+  var image = document.getElementById('carimage');
+  image.style.border = 'none';
+}
+
+function changeImage(){
+var data = document.getElementById('mySelect').value;
+var image = document.getElementById('carimage');
+//alert("Your selection: "+data);
+
+
+if (data == "Audi") {
+  window.alert(data);
+ image.src = "http://o.aolcdn.com/commerce/autodata/images/USC70AUC017A021001.jpg";
+ }
+
+else if (data =="BMW")  {
+  window.alert(data);
+image.src = "http://cdn.bmwblog.com/wp-content/uploads/2015/11/BMW-2-Series-Gran-Coupe-Rendering.jpg";
+}
+
+else if (data =="Mercedes")  {
+  window.alert(data);
+image.src = "http://st.motortrend.com/uploads/sites/10/2016/09/2017-mercedes-benz-s-class-maybach-s600-sedan-angular-front.png";
+}
+
+else if (data =="Volvo")  {
+  window.alert(data);
+image.src = "http://o.aolcdn.com/commerce/autodata/images/USC40VOC172G021001.jpg";
+}
+
+}
 
 </script>
 
-<h1>Workshop 4: DOM Scripting</h1>
+<h1 id="otsikko">Workshop 4: DOM Scripting</h1>
 <hr />
 <p>In this exercise we will practice the art of DOM Scripting with JavaScript. Use the lecture-material as a reference guide side by side these exercises. It might also be a good idea to save the lines of code you write during the exercises for later use. </p>
 
@@ -36,9 +112,9 @@ img {
 <h2>Exercise 1: Basic  DOM Manipulation</h2>
 <p>&nbsp;Below you will see three buttons. Edit the source code and add an onClick-events to these buttons. Use Developer Console to find the </p>
 <p>
-  <button onclick="">Button 1</button>
-  <button onclick="">Button 2</button>
-  <button onclick="">Button 3</button>
+  <button onclick="document.getElementById('otsikko').innerHTML = 'Modified Heading!';">Button 1</button>
+  <button onclick="firstFunction();">Button 2</button>
+  <button onclick="secondFunction();">Button 3</button>
 </p>
 
 <ul>
@@ -62,7 +138,7 @@ img {
     Show me</label>
   <br>
   <label>
-    <input type="checkbox" name="CheckboxGroup1" value="3" id="CheckboxGroup1_2"> 
+    <input onchange="find()" type="checkbox" name="CheckboxGroup1" value="3" id="CheckboxGroup1_2"> 
     <span id="surpise">Surprise</span>
   </label>
 </p>
@@ -77,23 +153,67 @@ img {
 <li>When the mouse is moved on top of the image, a colored border should appear surrounding it. On mouse out, border should disappear</li>
 <li>When you have accomplished the above, change the image (id=&quot;carimage&quot;) below based on the users choice on the pulldown menu below. Find appropriate images from the web.
   <p>Select a new car from the list.</p>
-  <select name="mySelect" id="mySelect" onchange="">
+  <select name="mySelect" id="mySelect" onchange="changeImage()">
     <option value="BMW">BMW         
     <option value="Audi">Audi
     <option value="Mercedes">Mercedes
     <option value="Volvo">Volvo
   </select>
   <br>
-  <br>
-<img onmouseover="" onmouseout="" style="left: 0px; opacity: 1;" src="https://www.bmw.in/content/dam/bmw/common/all-models/3-series/sedan/2018/navigation/bmw-3-series-modellfinder.png" width="400" id="carimage"/></li>
+  <br>¨
+<div id="container" style="position: relative; height: 500px; width: 1900px;">
+<img onmouseover="addBorder()" onmouseout="removeBorder()" style="left: 0px; opacity: 1; position: absolute;" src="https://www.bmw.in/content/dam/bmw/common/all-models/3-series/sedan/2018/navigation/bmw-3-series-modellfinder.png" width="400" id="carimage"/></li>
+</div>
 <h2>Exercise 4: Moving things around</h2>
+<script>
+  function changePosition() {
+    var kuva = document.getElementById('carimage');
+    kuva.style.position = 'relative';
+    kuva.style.left = '-200px';
+    kuva.style.top = '+500px';
+  }
+
+
+  const elem = document.getElementById("carimage");   
+  let pos = 0;
+  
+  function doMove() {
+    if (pos == 350) {
+      pos--;
+      elem.style.right = pos + "px";
+    } else {
+      pos++; 
+      elem.style.left = pos + "px"; 
+    }
+  }
+
+
+ function count(){
+  for (var i = 1; i >= 0 ; i=i-0.1) {
+    console.log(i)
+  }
+   
+ } 
+
+ let fade = 100;
+
+  function fadeOut() {
+    if (fade == 0) {
+      clearInterval();
+    } else {
+      fade--;
+      elem.style.opacity = fade / 100;
+    }
+  }
+
+</script>
 <ul>
   <li>
     <p class="surprise">You can do neat things by editing CSS-rules via  JavaScript. See the examples in lecture slides. Then try these:</p>
     <ol>
       <li><button onclick="changePosition()">Move!</button>Select the div with an id &quot;carimage&quot; and move it 200px left and 500px down</li>
-      <li><button onclick="setInterval(function(){doMove();},1000); "/>Animate</button> Write a  funtion doMove() which  will move the image across the screen, or even better: back and forth on  the screen. The Interval required has already been added to the onclick -event of the list item.</li>
-      <li><button onclick="setInterval(function(){fadeOut();},250);"/>Fade out!</button> Wite  a function fadeOut() which will slowly decrease the opacity of the image from 1.0 to  0 making it fade out. The Interval required has already been added to the onclick -event of the list item</li>
+      <li><button onclick="setInterval(function(){doMove();},10); ">Animate</button> Write a  funtion doMove() which  will move the image across the screen, or even better: back and forth on  the screen. The Interval required has already been added to the onclick -event of the list item.</li>
+      <li><button onclick="setInterval(function(){fadeOut();},250);">Fade out!</button> Wite  a function fadeOut() which will slowly decrease the opacity of the image from 1.0 to  0 making it fade out. The Interval required has already been added to the onclick -event of the list item</li>
       <li><button onclick="hide()"/>Disappear! </button>Finally, write JavaScript which will remove the image from the page</li>
     </ol>
   </li>
@@ -164,5 +284,7 @@ Salary:
   </li>
   <li dir="ltr">How would you replace the contents only on the ones with the word &lsquo;Select&rsquo; in them?</li></ul>
 </html>
-
+<br>
+<input type="button" onclick="count()" name="count" id="count" value="Count">
+</p>
 
