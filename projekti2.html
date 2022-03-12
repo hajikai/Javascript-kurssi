@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lomake harjoittelu</title>
+</head>
+
+
+<body>
+
+  <h1>Haluatko lisätä jotain listalle?</h1>
+  <form name="omaLomake1" action="#" onsubmit="" method="">
+    <span>Ostikko:</span><br><input type="text" name="otsikko" id="otsikko" required /><br />
+    <span>Sisältö:</span><br><textarea name="comment" id="comment" required /></textarea>
+    <br><input type="button" value="Lähetä" onclick="lisääListaan();" />
+  </form><br />
+  <div id="lista"></div>
+
+
+</body>
+<script>
+  var items = [];
+
+  function lisääListaan() {
+    var item = readForm();
+
+    if (item == null) {
+      return;
+    }
+
+    items.push(item);
+    var listView = renderItems(items);
+    updateView(listView);
+
+  }
+
+  function readForm() {
+    var otsikko = document.getElementById("otsikko").value;
+    var kommentti = document.getElementById("comment").value;
+    if (otsikko == '' || kommentti == '') {
+      window.alert('Lisää tekstiä kenttiin.')
+      return null;
+    } else {
+      return { title: otsikko, comment: kommentti };
+    }
+  }
+
+  function renderItem(item) {
+    const otsikkokenttä = document.createElement('h1');
+    const otsikkoteksti = document.createTextNode(item.title);
+    otsikkokenttä.appendChild(otsikkoteksti);
+
+    const kommenttikenttä = document.createElement('p');
+    const kommenttiteksti = document.createTextNode(item.comment);
+    kommenttikenttä.appendChild(kommenttiteksti);
+
+    const poistokenttä = document.createElement('button');
+    const poistoteksti = document.createTextNode('Poista listalta.')
+    poistokenttä.appendChild(poistoteksti);
+    poistokenttä.addEventListener('click', function (e) {
+      dynaaminentausta.parentNode.removeChild(dynaaminentausta);
+    }, false);
+
+    const tausta = document.getElementById("lista");
+    const dynaaminentausta = document.createElement('div');
+    const tunnus = document.createAttribute('id');
+    tunnus.value = otsikko;
+    dynaaminentausta.setAttributeNode(tunnus);
+    dynaaminentausta.style.width = '500px';
+    dynaaminentausta.style.margin = '2px';
+    dynaaminentausta.style.padding = '2px';
+    dynaaminentausta.appendChild(otsikkokenttä);
+    dynaaminentausta.appendChild(kommenttikenttä);
+    dynaaminentausta.appendChild(poistokenttä);
+    return dynaaminentausta;
+  }
+
+  function renderItems(items) {
+    const containerDiv = document.createElement('div');
+    items.forEach(function (item) { 
+      let i = items.length;
+      console.log(i)
+      var renderedItem = renderItem(item);
+      containerDiv.appendChild(renderedItem)
+    });
+    return containerDiv;
+  }
+
+
+  function updateView(listView) {
+      const tausta = document.getElementById("lista");
+      var uusitausta = tausta.appendChild(listView);
+    }
+
+
+
+
+
+
+</script>
+
+</html>

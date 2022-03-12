@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lomake harjoittelu</title>
+</head>
+
+
+<body>
+
+    <h1>Haluatko lisätä jotain listalle?</h1>
+    <form name="omaLomake1" action="#" onsubmit="" method="">
+      <span>Ostikko:</span><br><input type="text" name="otsikko" id="otsikko" required/><br />
+      <span>Sisältö:</span><br><textarea name="comment" id="comment" required/></textarea>
+      <br><input type="button" value="Lähetä" onclick="lisääListaan();" />
+    </form><br/>
+  <div id="lista"></div>
+
+
+</body>
+<script>
+    function lisääListaan() {
+
+
+      var otsikko = document.getElementById("otsikko").value;
+      var kommentti = document.getElementById("comment").value;
+
+      if (otsikko == '' || kommentti == '') {
+          window.alert('Lisää tekstiä kenttiin.')
+      } else {
+      
+      const otsikkokenttä = document.createElement('h1');
+      const otsikkoteksti = document.createTextNode(otsikko);
+      otsikkokenttä.appendChild(otsikkoteksti);
+
+      const kommenttikenttä = document.createElement('p');
+      const kommenttiteksti = document.createTextNode(kommentti);
+      kommenttikenttä.appendChild(kommenttiteksti);
+
+      const poistokenttä = document.createElement('button');
+      const poistoteksti = document.createTextNode('Poista listalta.')
+      poistokenttä.appendChild(poistoteksti);
+      poistokenttä.addEventListener('click', function(e) {
+          dynaaminentausta.parentNode.removeChild(dynaaminentausta);
+      }, false);
+
+        
+      
+      const tausta = document.getElementById("lista");
+      const dynaaminentausta = document.createElement('div');
+      const tunnus = document.createAttribute('id');
+      tunnus.value = otsikko;
+      dynaaminentausta.setAttributeNode(tunnus);
+      
+    //   dynaaminentausta.style.border = '1px solid black';
+      dynaaminentausta.style.width = '500px';
+      dynaaminentausta.style.margin = '2px';
+      dynaaminentausta.style.padding = '2px';
+      dynaaminentausta.appendChild(otsikkokenttä);
+      dynaaminentausta.appendChild(kommenttikenttä);
+      dynaaminentausta.appendChild(poistokenttä);
+      tausta.appendChild(dynaaminentausta);
+      
+      
+      return false;
+    }
+    }
+    </script>   
+</html>

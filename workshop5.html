@@ -34,6 +34,7 @@
     var email = f.email.value;
     var comment = f.comment.value;
 
+
     if (email.length < 6 || email.length > 15) {
       window.alert('Sähköpostin pituus on oltava väliltä 6-15 merkkiä.');
       f.email.style.border = '1px solid red';
@@ -73,7 +74,7 @@
 </script>
 
 <!-- This is for assignment 3 -->
-<!-- <script src="shopping.js"></script> -->
+<script src="shopping.js"></script>
 
 <h1>Workshop 5: Smart Forms</h1>
 <hr />
@@ -131,42 +132,92 @@
   function calculatePrice() {
     var vuosi = document.getElementById("years").value;
     var taso = document.getElementById("type").value;
+    const tasot = document.getElementById("type").value;
     var hinta = '';
     var kokonaisuus = document.getElementById("cost");
+    var alennus = document.getElementById('alennus');
 
-    if (taso = 'basic') {
+    if (taso == 'basic') {
       hinta = 10 * vuosi;
-      kokonaisuus.innerHTML = hinta;
+      kokonaisuus.value = hinta;
     }
 
-    if (taso = 'premium') {
+    if (taso == 'basic' && vuosi >= 2) {
+      hinta = 10 * vuosi * 0.80;
+      kokonaisuus.value = hinta;
+    }
+
+    if (taso == 'basic' && vuosi >= 5) {
+      hinta = 10 * vuosi * 0.80 - 5;
+      kokonaisuus.value = hinta;
+    }
+
+    if (taso == 'premium') {
       hinta = 15 * vuosi;
-      kokonaisuus.innerText = hinta;
-      console.log(hinta);
+      kokonaisuus.value = hinta;
     }
 
-    if (taso = 'gold') {
+    if (taso == 'premium' && vuosi >= 2) {
+      hinta = 15 * vuosi * 0.80;
+      kokonaisuus.value = hinta;
+    }
+
+    if (taso == 'premium' && vuosi >= 5) {
+      hinta = 15 * vuosi * 0.80 - 5;
+      kokonaisuus.value = hinta;
+    }
+
+    if (taso == 'gold') {
       hinta = 20 * vuosi;
-      kokonaisuus.innerHTML = hinta;
-      console.log(hinta);
+      kokonaisuus.value = hinta;
     }
 
-    if (taso = 'platinum') {
-      hinta = 25 * vuosi;
-      kokonaisuus.innerHTML = hinta;
-      console.log(hinta);
+    if (taso == 'gold' && vuosi >= 2) {
+      hinta = 20 * vuosi * 0.80;
+      kokonaisuus.value = hinta;
     }
-    
-    
+
+    if (taso == 'gold' && vuosi >= 5) {
+      hinta = 20 * vuosi * 0.80 - 5;
+      kokonaisuus.value = hinta;
+    }
+
+    if (taso == 'platinum') {
+      hinta = 25 * vuosi;
+      kokonaisuus.value = hinta;
+    }
+
+    if (taso == 'platinum' && vuosi >= 2) {
+      hinta = 25 * vuosi * 0.80;
+      kokonaisuus.value = hinta;
+    }
+
+    if (taso == 'platinum' && vuosi >= 5) {
+      hinta = 25 * vuosi * 0.80 - 5;
+      kokonaisuus.value = hinta;
+    }
+
+    if (vuosi >= 2) {
+      alennus.innerHTML = 'Saat 20%:n alennuksen yli kahden vuoden tilauksista!'
+    } else {
+      alennus.innerHTML = '';
+    }
+
+    if (vuosi >= 5) {
+      alennus.innerHTML += ' Ja lisäksi saat 5 euron kerta-alennuksen viiden vuoden tilauksen yhteydessä!'
+    }
+
   }
+
 
 </script>
 
-<form action="" onsubmit="calculatePrice()" method="post" id="theForm">
+<form action="" onchange="calculatePrice()" method="post" id="theForm">
   <fieldset>
     <legend>Create Your Membership</legend>
     <p>Complete this form to calculate your membership. There's a 20% discount if
       you enroll for more than one year!</p>
+    <span style="color:red;" id="alennus"></span>
     <div><label for="type">Type</label> <select name="type" id="type" required>
         <option value="basic">Basic - $10.00</option>
         <option value="premium">Premium - $15.00</option>
@@ -221,4 +272,68 @@
   </li>
 </ul>
 
+
+<form onsubmit="return getData()">
+
+  Email address:<br>
+  <input type="text" name="email" id="email"><span id="emailvinkki"></span>
+  <br>
+  Comment:<br>
+  <textarea name="comment" id="comment"></textarea><span id="kommenttivinkki"></span>
+  <br>
+  <input type="checkbox" id="sähköposti" name="interest1" value="sähköposti">
+  <label for="sähköposti">Sähköposti</label>
+  <input type="text" id="sähköpostiValue" name="sähköpostiValue">
+  <br>
+  <input type="checkbox" id="phone" name="interest2" value="phone">
+  <label for="phone">Puhelin</label>
+  <input type="text" id="phoneValue" name="phoneValue">
+  <br>
+  <input type="checkbox" id="sms" name="interest3" value="sms">
+  <label for="sms">SMS</label>
+  <input type="text" id="smsValue" name="smsValue">
+  <br>
+  <input type="submit" value="Send">
+</form>
+<script>
+
+  var sähköpostiboksi = document.querySelector('input[value="sähköposti"]');
+  var sähköpostiteksti = document.querySelector('input[id="sähköpostiValue"]');
+  sähköpostiteksti.style.visibility = 'hidden';
+
+  sähköpostiboksi.addEventListener('change', () => {
+    if (sähköpostiboksi.checked) {
+      sähköpostiteksti.style.visibility = 'visible';
+      sähköpostiteksti.value = '';
+    } else {
+      sähköpostiteksti.style.visibility = 'hidden';
+    }
+  });
+
+  var puhelinboksi = document.querySelector('input[value="phone"]');
+  var puhelinteksti = document.querySelector('input[id="phoneValue"]');
+  puhelinteksti.style.visibility = 'hidden';
+
+  puhelinboksi.addEventListener('change', () => {
+    if (puhelinboksi.checked) {
+      puhelinteksti.style.visibility = 'visible';
+      puhelinteksti.value = '';
+    } else {
+      puhelinteksti.style.visibility = 'hidden';
+    }
+  });
+
+  var smsboksi = document.querySelector('input[value="sms"]');
+  var smsteksti = document.querySelector('input[id="smsValue"]');
+  smsteksti.style.visibility = 'hidden';
+
+  smsboksi.addEventListener('change', () => {
+    if (smsboksi.checked) {
+      smsteksti.style.visibility = 'visible';
+      smsteksti.value = '';
+    } else {
+      smsteksti.style.visibility = 'hidden';
+    }
+  });
+</script>
 </html>
