@@ -22,22 +22,30 @@
 
 </body>
 <script>
-  var items = [];
+  const items = [];
 
   function lisääListaan() {
     var item = readForm();
-
     if (item == null) {
       return;
     }
-
+    let i = 0;
+    i++;
+    var storeTitle = 'otsikko' + i;
+    console.log(storeTitle);
+    localStorage.setItem(storeTitle, otsikko);
+    localStorage.setItem('kommentti', item.comment);
     items.push(item);
     var listView = renderItems(items);
     updateView(listView);
+    console.log(listView);
+    items.pop();
 
   }
 
   function readForm() {
+    let i = 0;
+    i++;
     var otsikko = document.getElementById("otsikko").value;
     var kommentti = document.getElementById("comment").value;
     if (otsikko == '' || kommentti == '') {
@@ -81,10 +89,8 @@
   function renderItems(items) {
     const containerDiv = document.createElement('div');
     items.forEach(function (item) { 
-      let i = items.length;
-      console.log(i)
       var renderedItem = renderItem(item);
-      containerDiv.appendChild(renderedItem)
+      containerDiv.appendChild(renderedItem);
     });
     return containerDiv;
   }

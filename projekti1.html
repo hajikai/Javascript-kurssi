@@ -22,11 +22,34 @@
 
 </body>
 <script>
-    function lisääListaan() {
 
+
+
+    function lisääListaan() {
+      const info = [];
 
       var otsikko = document.getElementById("otsikko").value;
       var kommentti = document.getElementById("comment").value;
+
+      info.push(otsikko, kommentti);
+
+      let i = clickCounter();
+      var storeTitle = 'otsikko' + i;
+      console.log(storeTitle);
+      var storeComment = 'kommentti' + i;
+      console.log(storeComment);
+      var storeAll = 'kokonaisuus' + i;
+      console.log(storeAll);
+
+      localStorage.setItem(storeTitle, otsikko);
+      localStorage.setItem(storeComment, kommentti);
+      localStorage.setItem(storeAll, info);
+
+      var savedTitle = localStorage.getItem(storeTitle);
+      var savedComment = localStorage.getItem(storeComment);
+      console.log(savedTitle);
+      console.log(savedComment);
+    
 
       if (otsikko == '' || kommentti == '') {
           window.alert('Lisää tekstiä kenttiin.')
@@ -44,11 +67,11 @@
       const poistoteksti = document.createTextNode('Poista listalta.')
       poistokenttä.appendChild(poistoteksti);
       poistokenttä.addEventListener('click', function(e) {
+          sessionStorage.clickcount  = Number(sessionStorage.clickcount) - 1;
           dynaaminentausta.parentNode.removeChild(dynaaminentausta);
+          
       }, false);
 
-        
-      
       const tausta = document.getElementById("lista");
       const dynaaminentausta = document.createElement('div');
       const tunnus = document.createAttribute('id');
@@ -63,10 +86,26 @@
       dynaaminentausta.appendChild(kommenttikenttä);
       dynaaminentausta.appendChild(poistokenttä);
       tausta.appendChild(dynaaminentausta);
-      
-      
-      return false;
+      return;
     }
     }
+
+    function printStuff() {
+      
+    }
+
+    function clickCounter() {
+  if (typeof(Storage) !== "undefined") {
+    if (sessionStorage.clickcount) {
+      sessionStorage.clickcount = Number(sessionStorage.clickcount)+1;
+      return sessionStorage.clickcount;
+    } else {
+      sessionStorage.clickcount = 1;
+      return sessionStorage.clickcount;
+    }
+  } else {
+    document.getElementById("result").innerHTML = "Sorry, your browser does not support web storage...";
+  }
+}
     </script>   
 </html>
