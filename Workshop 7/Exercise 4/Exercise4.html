@@ -1,0 +1,32 @@
+<html>
+
+<head>
+
+</head>
+
+<body>
+<h2>Exercise 4: AJAX call to a live newsfeed</h2>
+</div>
+<div>
+    <p><br /> Next try fetching data from a web service. Use either Yahoo news feed
+        https://pastebin.com/raw/tPmhjEPM ( downloaded from https://news.yahoo.com/rss/topstories,
+        security restriction do not allow sending AJAX calls to Yahoo) or a finnish one
+        (http://www.iltalehti.fi/rss/uutiset.xml). Parse the results and display on page below as a list. You can
+        add link to the original news item as well.</p>
+</div>
+<div>
+    <ul>
+        <li>News heading 1</li>
+        <li>News heading 2</li>
+        <li><a href="#">News heading 3</a></li>
+    </ul>
+</div>
+<div><input id="Fetch3" name="Fetch3" type="button" value="Load Iltalehti newsfeed" onclick="loadAndParseNews();"></div>
+<div><input id="Fetch3" name="Fetch3" type="button" value="Load Yahoo Newsfeed" /></div>
+<div>
+    <div id="newsfeed">&nbsp;</div>
+</div>
+<script src="Exercise4.js"></script>
+</body>
+
+</html>
