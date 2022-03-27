@@ -84,9 +84,12 @@
   // sekä niiden määrän localStorage-muistiin For-loopilla.
   // Funktio ajetaan kun To Do -lista päivittyy eli kun sinne lisätään jotain tai poistetaan jotain.
 
+
+
   function tallennaMuistiin() {
     const otsikot = document.getElementsByClassName('otsikko');
     const kommentit = document.getElementsByClassName('kommentti');
+
 
     // Funktio luo ensin Array:t sivulta löytyvistä otsikoista ja kommenteista HTML-classien perusteella.
     // For-looppi pyörii otsikot.lenght asti eli kunnes kaikki otsikot (ja mahdolliset kommentit) sekä niiden määrä on tallennettu.
@@ -101,6 +104,8 @@
       var storeAmount = 'määrä';
       console.log(storeAmount);
 
+
+
       // Ensin (yläpuolella) määrittelen localStorage avainten nimet tyylillä 'otsikko1', 'otsikko2', 'kommentti1' jne. mahdollistaen helpomman muistista lataamisen myöhemmässä funktiossa.
 
       var titleValue = otsikot[i].innerHTML;
@@ -108,12 +113,16 @@
       var commentValue = kommentit[i].innerHTML;
       console.log(commentValue);
       var amountValue = i + 1;
+      console.log(amountValue);
+
+
 
       // Seuraavaksi (yläpuolella) määrittelen localStorage avainten arvot sivulta löytyvien otsikkojen ja kommenttien perusteella.
 
       myStorage.setItem(storeTitle, titleValue);
       myStorage.setItem(storeComment, commentValue);
       myStorage.setItem(storeAmount, amountValue);
+
 
       // Lopuksi lisään avaimet (nimet ja arvot) localStorageen.
     }
@@ -123,6 +132,7 @@
 
   // lataaMuistista() -funktio lataa ja renderöi tallennaMuistiin() -funktion localStorageen tallentamat To Do -itemit otsikoineen ja kommentteineen For-loopilla.
   // lataaMuistista() -funktio ajetaan sivun ladatessa eli <body onload='lataaMuistista();>'
+
 
   function lataaMuistista() {
     var amount = myStorage.getItem('määrä');
@@ -135,6 +145,7 @@
     for (let i = 1; i <= amount; i++) {
       var loadTitle = myStorage.getItem('otsikko' + i);
       var loadComment = myStorage.getItem('kommentti' + i);
+      var loadCompleted = myStorage.getItem('tehty' + i);
 
       // loadTitle on localStorage-muistin otsikko1, otsikko2, otsikko3 jne. arvo.
       // loadComment on localStorage-muistin kommentti1, kommentti2, kommentti3 jne. arvo.
@@ -183,6 +194,9 @@
 
       const poistokenttä = document.createElement('button');
       const poistoteksti = document.createTextNode('Poista listalta.')
+      const poistotunnus = document.createAttribute('class');
+      poistotunnus.value = 'poisto';
+      poistokenttä.setAttributeNode(poistotunnus);
       poistokenttä.appendChild(poistoteksti);
 
       // Luodaan 'button'-elementti ja TextNode arvolla 'Poista listalta' eli luodaan siis nappi, jolla voidaan poistaa To Do -itemeitä listalta.
@@ -190,14 +204,48 @@
 
       poistokenttä.addEventListener('click', function (e) {
         dynaaminentausta.parentNode.removeChild(dynaaminentausta);
-        myStorage.clear();
-        tallennaMuistiin();
+        var amount = myStorage.getItem('määrä');
+        var newAmount = amount - 1;
+        myStorage.removeItem('otsikko' + i);
+        myStorage.removeItem('kommentti' + i);
+        myStorage.setItem('määrä', newAmount);
+
       }, false);
 
       // EventListener:n funktio aktivoituu nappia klikatessa ja poistaa ensin myöhemmin määriteltävän 'dynaaminentausta'-elementin, joka on DIV-elementti, jonka sisällä otsikko ja kommentti ovat.
       // Seuraavaksi tyhjennetään sivun localStorage-muisti hetkellisesti ja ajetaan tallennaMuistiin()-funktio uudestaan, jotta localStorage pysyy ajantasalla listan tilanteesta.
 
-      const tausta = document.getElementById("lista");
+      const tärkeäKenttä = document.createElement('button');
+      const tärkeäTeksti = document.createTextNode('Merkitse tehdyksi.');
+      const tunnus2 = document.createAttribute('class');
+      tunnus2.value = 'done';
+      tärkeäKenttä.setAttributeNode(tunnus2);
+      tärkeäKenttä.appendChild(tärkeäTeksti);
+
+      tärkeäKenttä.addEventListener('click', function (e) {
+        var loadTitle = myStorage.getItem('otsikko' + i);
+        var loadCompleted = myStorage.getItem('tehty' + i);
+
+        if (loadTitle == loadCompleted) {
+          otsikkokenttä.style.textDecoration = '';
+          myStorage.removeItem('tehty' + i);
+          kommenttikenttä.style.display = 'block';
+          tärkeäKenttä.style.display = 'inline';
+          tärkeäKenttä.style.backgroundColor = 'green';
+          tärkeäKenttä.style.borderColor = 'green';
+          tärkeäKenttä.innerHTML = 'Merkitse tehdyksi.'
+        }
+        if (loadTitle !== loadCompleted) {
+          otsikkokenttä.style.textDecoration = 'line-through';
+          kommenttikenttä.style.display = 'none';
+          tärkeäKenttä.style.backgroundColor = 'red';
+          tärkeäKenttä.style.borderColor = 'red';
+          tärkeäKenttä.innerHTML = 'Palauta.'
+          myStorage.setItem('tehty' + i, dynaaminentausta.firstChild.innerHTML);
+        }
+      })
+
+      const lista = document.getElementById("lista");
 
       // tausta on jo sivulta löytyvä isompi DIV-elementti, jonka sisään jokainen To Do -item menee dynaaminentausta-nimisen DIV-elementissä.
 
@@ -206,6 +254,15 @@
       tunnus.value = 'tausta';
       dynaaminentausta.setAttributeNode(tunnus);
       dynaaminentausta.style.width = '500px';
+      dynaaminentausta.style.height = '100px';
+
+      if (loadTitle == loadCompleted) {
+      otsikkokenttä.style.textDecoration = 'line-through';
+      kommenttikenttä.style.display = 'none';
+      tärkeäKenttä.style.backgroundColor = 'red';
+      tärkeäKenttä.style.borderColor = 'red';
+      tärkeäKenttä.innerHTML = 'Palauta.';
+    }
 
       // Luodaan 'dynaaminentausta' DIV-elementti ja määritellään sille attribuutti 'id' arvolla 'tausta + i' debugaussyistä.
       // Samalla muokataan 'dynaaminentausta' DIV-elementin tyyliä mm. width, margin ja padding.
@@ -213,13 +270,15 @@
       dynaaminentausta.appendChild(otsikkokenttä);
       dynaaminentausta.appendChild(kommenttikenttä);
       dynaaminentausta.appendChild(poistokenttä);
+      dynaaminentausta.appendChild(tärkeäKenttä);
 
       // Ja lisätään otsikko, kommentti sekä poistonappi dynaamiseen taustaan.
 
-      tausta.appendChild(dynaaminentausta);
+
+      lista.appendChild(dynaaminentausta);
 
       // Ja lopuksi lisätään dynaaminentausta sivulta valmiiksi löytyvään taustaan eli se vihdoin ilmestyy sivulle.
-   
+
       tsekkaaMäärä();
 
       // Ajetaan tsekkaaMäärä()-funktio, jotta määrän näkee silloinkin kun sivun lataa uusiksi.
@@ -237,6 +296,11 @@
 
     if (otsikko == '') {
       window.alert('Otsikko on pakollinen. Lisää jotain tekstiä otsikkokenttään.')
+      const otsikkoInput = document.getElementById("otsikko");
+      otsikkoInput.style.border = '2px solid red';
+      otsikkoInput.addEventListener('click', function (e) {
+        otsikkoInput.style.border = '';
+      })
     } else {
 
       // Tarkistetaan tukeeko selain localStorage / sessionStorage -toimintoja - jos tukee niin sitten luodaan otsikko ja kommentti -muuttujista HTML-elementit.
@@ -249,6 +313,7 @@
         a.value = 'otsikko';
         otsikkokenttä.setAttributeNode(a);
         otsikkokenttä.appendChild(otsikkoteksti);
+
 
         // Luotiin otsikolle 'h2'-elementti sekä TextNode tekstikentän arvolla.
         // Määriteltiin otsikon 'h2'-elementille attribuutti 'class' arvolla 'otsikko', jotta localStorageen tallennus onnistuu helpommin.
@@ -267,6 +332,9 @@
 
         const poistokenttä = document.createElement('button');
         const poistoteksti = document.createTextNode('Poista listalta.')
+        const poistotunnus = document.createAttribute('class');
+        poistotunnus.value = 'poisto';
+        poistokenttä.setAttributeNode(poistotunnus);
         poistokenttä.appendChild(poistoteksti);
 
         // Luodaan 'button'-elementti ja TextNode arvolla 'Poista listalta' eli luodaan siis nappi, jolla voidaan poistaa To Do -itemeitä listalta.
@@ -276,12 +344,20 @@
           dynaaminentausta.parentNode.removeChild(dynaaminentausta);
           myStorage.clear();
           tallennaMuistiin();
+          window.location.reload();
         }, false);
 
         // EventListener:n funktio aktivoituu nappia klikatessa ja poistaa ensin 'dynaaminentausta'-elementin, jonka sisältä löytyvät otsikko ja kommentti.
         // Seuraavaksi tyhjennetään sivun localStorage-muisti hetkellisesti ja ajetaan tallennaMuistiin()-funktio uudestaan, jotta localStorage pysyy ajantasalla listan tilanteesta.
 
-        const tausta = document.getElementById("lista");
+        const tärkeäKenttä = document.createElement('button');
+        const tärkeäTeksti = document.createTextNode('Merkitse tehdyksi.');
+        const tunnus2 = document.createAttribute('class');
+        tunnus2.value = 'done';
+        tärkeäKenttä.setAttributeNode(tunnus2);
+        tärkeäKenttä.appendChild(tärkeäTeksti);
+
+        lista = document.getElementById("lista");
 
         // tausta on jo sivulta löytyvä isompi DIV-elementti ID:llä 'lista', jonka sisään jokainen To Do -item menee dynaaminentausta-nimisen DIV-elementissä.
 
@@ -297,16 +373,42 @@
         dynaaminentausta.appendChild(otsikkokenttä);
         dynaaminentausta.appendChild(kommenttikenttä);
         dynaaminentausta.appendChild(poistokenttä);
+        dynaaminentausta.appendChild(tärkeäKenttä);
+
+
+
 
         // Lisätään otsikko, kommentti sekä poistonappi dynaamiseen taustaan.
 
-        tausta.appendChild(dynaaminentausta);
+        lista.appendChild(dynaaminentausta);
 
         // Lisätään dynaaminentausta sivulta löytyvään taustaan, jotta To Do -item ilmestyy sivulle.
 
         tallennaMuistiin();
-
         // Ajetaan tallennaMuistiin()-funktio, jotta uusi To Do -item pääsee localStorageen.
+
+        window.location.reload();
+
+        // otsikkokenttä.addEventListener('click', function (e) {
+        //   var amount = myStorage.getItem('määrä');
+        //   for (let i = 1; i <= amount; i++) {
+        //     var loadTitle = myStorage.getItem('otsikko' + i);
+        //     var loadCompleted = myStorage.getItem('tehty' + i);
+
+        //     if (otsikko == loadCompleted) {
+        //       otsikkokenttä.style.textDecoration = '';
+        //       kommenttikenttä.style.display = 'block';
+        //       tärkeäKenttä.style.display = 'inline';
+        //       myStorage.removeItem('tehty' + i);
+        //     }
+        //     if (otsikko !== loadCompleted) {
+        //       otsikkokenttä.style.textDecoration = 'line-through';
+        //       kommenttikenttä.style.display = 'none';
+        //       tärkeäKenttä.style.display = 'none';
+        //       myStorage.setItem('tehty' + i, dynaaminentausta.firstChild.innerHTML);
+        //     }
+        //   }
+        // })
 
       } else {
         window.alert('Sorry, your browser does not support web storage...');
