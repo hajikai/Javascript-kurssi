@@ -1,0 +1,28 @@
+<HTML>
+
+<head>
+    <title>Projekti 2 - AJAX Music Box</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="projekti2.css">
+</head>
+<h1>Projekti 2 - AJAX Music Box</h1>
+<hr />
+<select name="mySelect" id="method" onchange="chooseMethod(method.value)">
+    <option value="artist">Artistihaku</option>
+    <option value="album">Albumihaku</option>
+</select>
+<input id="albumsearch" placeholder="Kirjoita hakusanasi tähän."></input>
+<button id="search" onclick="lataaJSONDoc(albumsearch.value)">Hae</button>
+<hr />
+<p>Tämä Javascript-projekti hyödyntää Last.fm:n REST API:a albumien ja artistien etsimiseen.</p>
+<p>Valitse hakumuoto, kirjoita albumin tai artistin nimi ja etsi. Paina artistia / albumia, jos haluat lisätietoa.</p>
+<br><br>
+<div id="searchdata"></div>
+<div id="extradata">
+</div>
+<br>
+<br>
+</body>
+<script src="projekti2.js">  </script>
+
+</html>

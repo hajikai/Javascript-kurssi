@@ -1,0 +1,113 @@
+<HTML>
+
+<head>
+    <title>WS8 - harjoitus 3</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<style type="text/css">
+    body {
+        font-family: Trebuchet MS;
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 700px;
+        border: 1px solid black;
+    }
+
+    th {
+        text-align: center;
+    }
+
+    th,
+    td {
+        padding: 4px;
+        font-family: Verdana;
+        font-size: 12px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2
+    }
+
+    th,
+    td {
+        border: 1px solid #ddd;
+    }
+
+    td {
+        height: 40px;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    img {
+        width: 100px;
+    }
+</style>
+
+<script src="js/exercise3.js">
+</script>
+
+<h1>Workshop 8: Parsing JSON/XML with AJAX</h1>
+<hr />
+<p>In this exercise we will practice the use of JSON in our JavaScript applications. Use the lecture-material as a
+    reference guide side by side these exercises. </p>
+
+<p>&nbsp;</p>
+<h2>Exercise 3: Real Life Challenge: OpenWeatherMap API - Return by next session for extra points!</h2>
+
+<p>OpenWeatherMap is a well known weather data provider online. It offers an API which allow developers to fetch data
+    about weather. The <a href="https://openweathermap.org/api">documentation can be found here</a>.
+    Your task is to write a Weather APP, which will display the weather information based on the users wishes.
+    <b>Notice, that you will need to sign up (its free) to get the API key, which allows you to use the service.</b>
+</p>
+
+<p>Sample call to the REST API could be like this: <a
+        href="http://api.openweathermap.org/data/2.5/weather?q=Helsinki&units=metric&mode=JSON&APPID=ff64c247a136f706923d1ee0d55d71e2">http://api.openweathermap.org/data/2.5/weather?q=Helsinki&units=metric&mode=JSON&APPID=ff64c247a136f706923d1ee0d55d71e2
+    </a>.</p>
+
+<li>Display Espoo weather information (Temperature, Clouds, Humidity, Icon)
+    when the button is clicked.
+</li>
+
+<li>When you achieve this, then parse the data and output it to div</li>
+<li>When you have achieved this, implement an onchange-event on the pulldown menu, which will allow the user to select
+    which city's data will be shown from a list of cities</li>
+<li>When you have completed this, add functionality to an input field, in which the user can write search queries which
+    are sent to the OpenWeatherMap API and the system will run a search query which is retuned to your app.</li>
+<br>
+<button onclick="lataaJSONDoc('Believe')">Hae Espoo data</button>
+<br><br>
+<div id="espoodata">Espoodata goes here.</div>
+<br>
+
+<p>Select a city from the list:
+
+    <select name="mySelect" id="city" onchange="lataaJSONDoc(city.value)">
+        <option value="Helsinki">Helsinki</option>
+        <option value="Stockholm">Stockholm</option>
+        <option value="Rome">Rome</option>
+        <option value="New York">New York</option>
+    </select>
+    <br><br>
+
+
+    Or type in a search query:
+    <br><br>
+    <input id="citysearch" placeholder="Anna kaupungin nimi"></input>
+
+    <button id="search" onclick="lataaJSONDoc(citysearch.value)">Hae</button>
+
+
+    <br>
+<div id="weatherdata">Weatherdata goes here.</div>
+
+<br>
+<br>
+
+</body>
+
+</html>
